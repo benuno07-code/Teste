@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1020">
+<title>Painel de Negócios | NFC + Impressão 3D</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#121a2d;--panel2:#182238;--line:#293650;--text:#edf3ff;--muted:#9cabc4;--blue:#78a9ff;--mint:#71e0c0;--amber:#ffd27a;--red:#ff9b9b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.shell{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh;min-height:100dvh}.side{background:#0e1526;border-right:1px solid var(--line);padding:22px 14px;position:sticky;top:0;height:100vh;height:100dvh}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 23px}.mark{width:39px;height:39px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--mint));color:#081020;font-weight:900;font-size:17px}.brand strong{display:block;font-size:14px}.brand small{color:var(--muted);font-size:11px}
+.group{color:#71819e;font-size:10px;letter-spacing:1.4px;font-weight:800;padding:12px 10px 5px}.nav{display:flex;gap:10px;align-items:center;width:100%;border:0;background:transparent;color:#b9c6dc;padding:10px 12px;border-radius:9px;text-align:left;margin:3px 0;font-size:12px}.nav:hover,.nav.active{background:#1b2942;color:white}.nav.active{box-shadow:inset 3px 0 var(--blue)}.sidefoot{position:absolute;bottom:16px;left:18px;right:18px;border:1px solid var(--line);border-radius:11px;padding:12px;color:var(--muted);font-size:10px}
+main{width:100%;max-width:1500px;margin:auto;padding:28px clamp(14px,3vw,40px) 50px;min-width:0}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:24px}.eyebrow{color:var(--blue);font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}.top h1{font-size:clamp(25px,3vw,34px);line-height:1.18;margin:5px 0}.sub{color:var(--muted);font-size:12px;margin:0}.status{font-size:10px;color:var(--mint);background:#122a2a;border:1px solid #31574f;border-radius:30px;padding:7px 10px;white-space:nowrap}
+.page{display:none}.page.active{display:block}.grid{display:grid;gap:15px}.metrics{grid-template-columns:repeat(4,minmax(0,1fr));margin:15px 0}.two{grid-template-columns:minmax(0,1.1fr) minmax(270px,.9fr)}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.products{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px;min-width:0}.card h2{font-size:15px;margin:0 0 5px}.lead{color:var(--muted);font-size:11px;margin:0 0 15px}.metric-top{display:flex;justify-content:space-between;gap:7px;color:var(--muted);font-size:11px}.metric-value{font-size:clamp(20px,2.1vw,28px);font-weight:760;letter-spacing:-.6px;margin:12px 0 4px;overflow-wrap:anywhere}.metric-foot{font-size:10px;color:var(--muted)}.mint{color:var(--mint)}.red{color:var(--red)}
+.sectionhead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin:5px 0 17px}.sectionhead h2{font-size:22px;margin:4px 0}.sectionhead p{font-size:12px;color:var(--muted);margin:0}
+label{font-size:12px;color:#d2ddef}.control{margin:12px 0}.controlhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:7px}.range{width:100%;accent-color:var(--blue);touch-action:pan-y}select,input[type=number]{width:100%;background:#0d1526;border:1px solid var(--line);border-radius:8px;color:var(--text);padding:10px;outline:none}.ticks{display:flex;justify-content:space-between;color:#7f90ad;font-size:10px}.pillrow{display:flex;gap:7px;flex-wrap:wrap}.pill{border:1px solid var(--line);border-radius:9px;background:#0d1526;color:#bdcbe1;padding:7px 10px;font-size:11px}.pill.active,.pill:hover{border-color:var(--blue);background:#1c2e4b;color:white}
+.callout{background:#14253a;border:1px solid #2b4566;border-radius:11px;padding:12px 14px;color:#c7d7ee;font-size:11px;margin-top:13px}.warn{background:#302717;border-color:#5e4b27;color:#f5dfb0}.good{background:#122a26;border-color:#28564a;color:#c7f3e5}
+.barwrap{margin:13px 0}.barlabel{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;margin-bottom:6px}.bar{height:8px;background:#26334a;border-radius:20px;overflow:hidden}.bar span{height:100%;display:block;background:linear-gradient(90deg,var(--blue),var(--mint));border-radius:20px}
+.feature{display:flex;gap:11px;align-items:flex-start}.ficon{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:#202e49;flex-shrink:0;font-size:17px}.feature h3{font-size:13px;margin:0 0 4px}.feature p{font-size:11px;color:var(--muted);margin:0}.featurelist{display:flex;flex-direction:column;gap:17px}
+.product{border:1px solid var(--line);border-radius:13px;padding:16px;background:linear-gradient(150deg,#18253d,#111a2b)}.product .emoji{font-size:25px;margin-bottom:8px}.product h3{font-size:13px;margin:0 0 5px}.product p{font-size:11px;color:var(--muted);margin:0}.product small{display:block;color:var(--mint);font-size:10px;margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:11px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--muted);font-weight:600}td:last-child,th:last-child{text-align:right}.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.steps{display:flex;gap:12px;margin:16px 0}.stepnum{width:28px;height:28px;flex-shrink:0;display:grid;place-items:center;border-radius:9px;background:#203653;color:var(--blue);font-weight:800}.steps h3{font-size:13px;margin:0 0 3px}.steps p{font-size:11px;color:var(--muted);margin:0}.fine{font-size:10px;color:#7f90ad;margin-top:16px}
+@media(max-width:940px){.shell{grid-template-columns:1fr}.side{position:relative;height:auto;padding:12px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:3px 6px 10px}.group,.sidefoot{display:none}.navlist{display:flex;gap:4px;overflow:auto;-webkit-overflow-scrolling:touch}.nav{width:auto;white-space:nowrap;margin:0;padding:9px 10px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.status{display:none}select,input[type=number]{font-size:16px}}
+@media(max-width:560px){main{padding:20px 12px 35px}.card{padding:14px}.three,.products{grid-template-columns:1fr}.top h1{font-size:26px}.sectionhead{display:block}.metric-value{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side">
+ <div class="brand"><div class="mark">NB</div><div><strong>Negócios em Foco</strong><small>Painel de planejamento</small></div></div>
+ <div class="group">VISÃO GERAL</div><div class="navlist">
+ <button type="button" class="nav active" data-page="overview">▦ &nbsp; Visão geral</button>
+ <button type="button" class="nav" data-page="3d">▧ &nbsp; Impressão 3D</button>
+ <button type="button" class="nav" data-page="nfc">▣ &nbsp; Placas NFC</button>
+ <button type="button" class="nav" data-page="compare">⇄ &nbsp; Comparar negócios</button>
+ <button type="button" class="nav" data-page="proscons">↗ &nbsp; Prós e contras</button>
+ <button type="button" class="nav" data-page="plan">☷ &nbsp; Plano de ação</button>
+ </div>
+ <div class="sidefoot"><b style="color:#edf3ff">Painel editável</b><br><br>Os resultados são estimativas. Confirme preços, frete, impostos e demanda antes de investir.</div>
+</aside>
+<main>
+<header class="top"><div><div class="eyebrow">Planejamento comercial • 2026</div><h1 id="title">Visão geral</h1><p class="sub" id="subtitle">Compare ideias de negócio com custos, margem e possibilidade de expansão.</p></div><div class="status">● Modelo interativo</div></header>
+
+<section class="page active" id="overview">
+ <div class="card"><div class="eyebrow">Objetivo</div><h2 style="font-size:21px;margin-top:7px">Escolher um negócio que possa crescer sem comprometer o caixa.</h2><p class="lead" style="font-size:12px;line-height:1.8;margin:8px 0 0">Este painel reúne duas ideias: vender placas NFC configuradas e produzir objetos com impressoras 3D. Use os simuladores para estimar investimento, custos variáveis e resultado potencial. Os valores são hipóteses de planejamento, não previsão garantida de vendas.</p></div>
+ <div class="grid metrics">
+  <div class="card"><div class="metric-top">Impressora de entrada <span>▧</span></div><div class="metric-value">R$ 1,9–2,7 mil</div><div class="metric-foot">Faixa indicativa para FDM de entrada/intermediária</div></div>
+  <div class="card"><div class="metric-top">Filamento PLA 1 kg <span>◉</span></div><div class="metric-value">R$ 70–130</div><div class="metric-foot">Referência aproximada; marca e frete variam</div></div>
+  <div class="card"><div class="metric-top">Placa NFC unitária <span>▣</span></div><div class="metric-value">R$ 80</div><div class="metric-foot">Preço de venda definido no modelo anterior</div></div>
+  <div class="card"><div class="metric-top">Foco recomendado <span>◎</span></div><div class="metric-value">Validar</div><div class="metric-foot">Testar demanda antes de escalar</div></div>
+ </div>
+ <div class="grid two">
+  <div class="card"><h2>Qual ideia você quer explorar?</h2><p class="lead">Abra um módulo para ver os custos e editar suas premissas.</p>
+   <div class="featurelist">
+    <div class="feature"><div class="ficon">▧</div><div><h3>Impressão 3D</h3><p>Comprar impressora, produzir itens sob demanda, controlar filamento, tempo de máquina, energia e acabamento.</p><button type="button" class="pill" data-go="3d">Abrir módulo 3D →</button></div></div>
+    <div class="feature"><div class="ficon">▣</div><div><h3>Placas NFC</h3><p>Comprar lotes, configurar placas e vender para comércios e profissionais.</p><button type="button" class="pill" data-go="nfc">Abrir módulo NFC →</button></div></div>
+   </div>
+  </div>
+  <div class="card"><h2>Princípio financeiro</h2><p class="lead">Faturamento não é lucro e estoque não é dinheiro em caixa.</p>
+   <div class="featurelist">
+    <div class="feature"><div class="ficon">1</div><div><h3>Calcule o custo total</h3><p>Equipamento, material, frete, embalagem, taxas, energia, manutenção, impostos e divulgação.</p></div></div>
+    <div class="feature"><div class="ficon">2</div><div><h3>Valide a procura</h3><p>Teste produtos e preços com clientes reais antes de comprar muitas máquinas ou grandes lotes.</p></div></div>
+    <div class="feature"><div class="ficon">3</div><div><h3>Escalone com dados</h3><p>Amplie a operação quando houver vendas consistentes, capacidade e fluxo de caixa para sustentar o crescimento.</p></div></div>
+   </div>
+  </div>
+ </div>
+ <p class="fine">Preços de equipamentos e materiais são referências de mercado consultadas em outubro de 2026; podem mudar conforme loja, frete, estoque e forma de pagamento.</p>
+</section>
+
+<section class="page" id="3d">
+ <div class="sectionhead"><div><div class="eyebrow">Módulo de produção</div><h2>Negócio de impressão 3D</h2><p>Simule investimento, material, energia e margem de uma peça.</p></div></div>
+ <div class="grid two">
+  <div class="card"><h2>O que é e como funciona?</h2><p class="lead">A impressão 3D fabrica um objeto físico a partir de um modelo digital, construindo-o camada por camada.</p>
+   <div class="featurelist">
+    <div class="feature"><div class="ficon">1</div><div><h3>Modelo 3D</h3><p>Você cria ou compra um arquivo digital (por exemplo, STL/3MF) ou recebe um desenho de cliente.</p></div></div>
+    <div class="feature"><div class="ficon">2</div><div><h3>Fatiador (slicer)</h3><p>O software converte o modelo em instruções para a máquina: camadas, temperatura, velocidade, suportes e preenchimento.</p></div></div>
+    <div class="feature"><div class="ficon">3</div><div><h3>Impressão</h3><p>Na tecnologia FDM, um filamento termoplástico passa pelo extrusor, é aquecido e depositado camada por camada.</p></div></div>
+    <div class="feature"><div class="ficon">4</div><div><h3>Acabamento e controle</h3><p>Remover suportes, revisar dimensões, lixar ou montar quando necessário e inspecionar antes de enviar.</p></div></div>
+   </div>
+   <div class="callout">Este plano considera impressoras FDM de filamento, a opção mais prática para começar com peças funcionais, decoração e produtos personalizados. Impressoras de resina são outra categoria e exigem lavagem, cura e cuidados de segurança adicionais.</div>
+  </div>
+  <div class="card"><h2>Simulador de uma peça</h2><p class="lead">Altere os campos para calcular o custo estimado e o preço mínimo.</p>
+   <div class="control"><div class="controlhead"><label for="filPrice">Preço do rolo de filamento (R$ / kg)</label></div><input id="filPrice" type="number" min="1" step="1" value="100"></div>
+   <div class="control"><div class="controlhead"><label for="grams">Filamento usado na peça (gramas)</label><strong id="gramsLabel">80 g</strong></div><input class="range" id="grams" type="range" min="5" max="500" step="5" value="80"><div class="ticks"><span>5 g</span><span>500 g</span></div></div>
+   <div class="control"><div class="controlhead"><label for="hours">Tempo de impressão (horas)</label><strong id="hoursLabel">3 h</strong></div><input class="range" id="hours" type="range" min=".5" max="24" step=".5" value="3"><div class="ticks"><span>30 min</span><span>24 h</span></div></div>
+   <div class="control"><div class="controlhead"><label for="power">Consumo médio (W)</label></div><input id="power" type="number" min="20" max="1000" value="120"></div>
+   <div class="control"><div class="controlhead"><label for="kwh">Tarifa de energia (R$/kWh)</label></div><input id="kwh" type="number" min=".1" step=".01" value="0.95"></div>
+   <div class="control"><div class="controlhead"><label for="waste">Reserva para falhas/desperdício (%)</label></div><input id="waste" type="number" min="0" max="100" value="10"></div>
+   <div class="control"><div class="controlhead"><label for="labor">Trabalho e acabamento (R$)</label></div><input id="labor" type="number" min="0" step="1" value="5"></div>
+   <div class="control"><div class="controlhead"><label for="salePrice">Preço de venda (R$)</label></div><input id="salePrice" type="number" min="0" step="1" value="35"></div>
+  </div>
+ </div>
+ <div class="grid metrics">
+  <div class="card"><div class="metric-top">Custo do filamento</div><div class="metric-value" id="materialCost">R$ 8,80</div><div class="metric-foot">Com reserva de desperdício</div></div>
+  <div class="card"><div class="metric-top">Energia estimada</div><div class="metric-value" id="energyCost">R$ 0,34</div><div class="metric-foot">Consumo médio × tempo × tarifa</div></div>
+  <div class="card"><div class="metric-top">Custo variável estimado</div><div class="metric-value" id="unitCost">R$ 14,14</div><div class="metric-foot">Material + energia + trabalho</div></div>
+  <div class="card"><div class="metric-top">Margem antes de taxas/fixos</div><div class="metric-value mint" id="unitProfit">R$ 20,86</div><div class="metric-foot">Preço de venda menos custo estimado</div></div>
+ </div>
+ <div class="grid two">
+  <div class="card"><h2>Equipamentos de entrada a produção avançada</h2><p class="lead">Faixas de referência no Brasil, não cotações garantidas.</p><div class="tablewrap"><table><thead><tr><th>Categoria</th><th>Exemplo</th><th>Faixa indicativa</th><th>Uso</th></tr></thead><tbody>
+   <tr><td>Entrada econômica</td><td>Creality Ender-3 V3 SE</td><td>R$ 1.400–1.900</td><td>Aprender e validar produtos</td></tr>
+   <tr><td>Entrada fácil de usar</td><td>Bambu Lab A1 Mini</td><td>R$ 1.950–2.500</td><td>Peças pequenas e médias</td></tr>
+   <tr><td>Mais área e automação</td><td>Bambu Lab A1</td><td>R$ 2.700–4.000</td><td>Produção geral e lote</td></tr>
+   <tr><td>Multicor acessível</td><td>Flashforge AD5X / equivalentes</td><td>R$ 3.500–4.600</td><td>Produtos com várias cores</td></tr>
+   <tr><td>Máquina fechada/avançada</td><td>Ex.: Creality K1C / similares</td><td>R$ 4.000–5.500+</td><td>Materiais e usos mais exigentes</td></tr>
+  </tbody></table></div><div class="callout warn">A recomendação inicial não é comprar a mais barata a qualquer custo: confiabilidade, calibração automática, suporte local e tempo parado afetam o custo real. Para a maioria dos iniciantes, comece com uma única máquina e PLA/PETG.</div></div>
+  <div class="card"><h2>Quanto custa iniciar?</h2><p class="lead">Estimativa de planejamento para uma estação de trabalho.</p>
+   <div class="control"><div class="controlhead"><label for="machineCost">Preço por impressora (R$)</label></div><input id="machineCost" type="number" min="500" step="100" value="2700"></div>
+   <div class="control"><div class="controlhead"><label for="machineQty">Quantidade de impressoras</label><strong id="machineQtyLabel">1</strong></div><input class="range" id="machineQty" type="range" min="1" max="10" step="1" value="1"><div class="ticks"><span>1 máquina</span><span>10 máquinas</span></div></div>
+   <div class="control"><div class="controlhead"><label for="spools">Rolos iniciais de filamento (1 kg)</label></div><input id="spools" type="number" min="1" step="1" value="5"></div>
+   <div class="control"><div class="controlhead"><label for="spoolPrice">Preço por rolo (R$)</label></div><input id="spoolPrice" type="number" min="20" step="5" value="100"></div>
+   <div class="control"><div class="controlhead"><label for="tools">Ferramentas, peças e segurança (R$)</label></div><input id="tools" type="number" min="0" step="50" value="400"></div>
+   <div class="control"><div class="controlhead"><label for="computer">Computador (R$; 0 se já tiver)</label></div><input id="computer" type="number" min="0" step="100" value="0"></div>
+   <div class="control"><div class="controlhead"><label for="setup">Bancada, armazenamento e ventilação (R$)</label></div><input id="setup" type="number" min="0" step="50" value="400"></div>
+   <div class="control"><div class="controlhead"><label for="reserve">Reserva para imprevistos (%)</label></div><input id="reserve" type="number" min="0" max="50" value="10"></div>
+   <div class="callout good"><strong>Investimento estimado:</strong> <span id="startupTotal">R$ 4.235,00</span><br><span id="startupBreakdown">Inclui equipamento, material inicial e estrutura.</span></div>
+  </div>
+ </div>
+ <div class="grid two" style="margin-top:15px">
+  <div class="card"><h2>O que é o filamento?</h2><p class="lead">É um fio contínuo de plástico termoplástico enrolado em um carretel, normalmente com diâmetro de 1,75 mm em impressoras domésticas.</p>
+   <div class="featurelist">
+    <div class="feature"><div class="ficon">PLA</div><div><h3>PLA</h3><p>Fácil de imprimir, comum para decoração, organizadores, protótipos e brindes. Não é ideal para calor elevado.</p></div></div>
+    <div class="feature"><div class="ficon">PET</div><div><h3>PETG</h3><p>Em geral mais resistente a impacto e umidade que PLA, útil para peças funcionais. Pode gerar fios e exige ajuste de perfil.</p></div></div>
+    <div class="feature"><div class="ficon">ABS</div><div><h3>ABS / ASA</h3><p>Mais exigentes; costumam precisar de câmara fechada e ventilação adequada. Não são a primeira escolha para ambiente doméstico sem preparação.</p></div></div>
+    <div class="feature"><div class="ficon">TPU</div><div><h3>TPU flexível</h3><p>Para peças que dobram, capas e amortecedores; requer configuração e alimentação compatíveis.</p></div></div>
+   </div>
+   <div class="callout">PLA é feito principalmente de ácido polilático (polímero derivado de ácido lático), não de cadeias de polietileno. PETG deriva de poliéster relacionado ao PET; ABS é outro polímero. A composição exata depende do material e dos aditivos.</div>
+  </div>
+  <div class="card"><h2>Consumíveis e manutenção</h2><p class="lead">Nem tudo é “material de impressão”; algumas coisas são manutenção e segurança.</p>
+   <div class="featurelist">
+    <div class="feature"><div class="ficon">▤</div><div><h3>Filamento e armazenamento</h3><p>Carretéis, sacos vedados e dessecante; secador de filamento pode ajudar materiais sensíveis à umidade.</p></div></div>
+    <div class="feature"><div class="ficon">⚙</div><div><h3>Lubrificação correta</h3><p>Use somente o lubrificante recomendado pelo fabricante para trilhos, fusos e rolamentos. Vaselina não é um consumível universal e pode atrair sujeira ou ser inadequada para algumas peças.</p></div></div>
+    <div class="feature"><div class="ficon">✂</div><div><h3>Ferramentas e reposição</h3><p>Alicate de corte, espátula apropriada, pinças, bicos, tubos e peças de desgaste compatíveis com o modelo.</p></div></div>
+    <div class="feature"><div class="ficon">♧</div><div><h3>Limpeza e segurança</h3><p>Superfície de trabalho estável, cabos e tomadas adequados, ventilação conforme material, proteção para ferramentas quentes e rotina de inspeção.</p></div></div>
+   </div>
+  </div>
+ </div>
+ <div class="grid two" style="margin-top:15px">
+  <div class="card"><h2>Como reduzir desperdício de filamento</h2>
+   <div class="featurelist">
+    <div class="feature"><div class="ficon">✓</div><div><h3>Imprimir várias peças da mesma cor</h3><p>Planeje lotes para reduzir trocas de carretel, purgas e tempo ocioso.</p></div></div>
+    <div class="feature"><div class="ficon">↔</div><div><h3>Combinar cores em um mesmo lote</h3><p>Se houver troca de cor, agrupe trabalhos compatíveis e use configurações de purga reduzida quando o fatiador e a máquina permitirem.</p></div></div>
+    <div class="feature"><div class="ficon">▦</div><div><h3>Usar purga em outra peça, quando viável</h3><p>Alguns sistemas permitem direcionar material de purga para preenchimento ou para uma peça de descarte útil. A cor pode ficar misturada e o resultado não serve para todo produto.</p></div></div>
+    <div class="feature"><div class="ficon">↻</div><div><h3>Separar sobras por material e cor</h3><p>Restos limpos podem virar projetos de teste ou ser enviados para reciclagem adequada. Para transformar sucata em novo filamento, normalmente é preciso triturar e extrudar com equipamento próprio — não basta derreter restos no bico da impressora.</p></div></div>
+   </div>
+   <div class="callout warn">A purga do bico ao mudar de preto para branco não desaparece por completo. Pode-se reduzir ou reaproveitar parte dela, mas a contaminação de cor é real. Evite vender peças com cor ou resistência imprevisível.</div>
+  </div>
+  <div class="card"><h2>Computador, energia e operação</h2>
+   <div class="featurelist">
+    <div class="feature"><div class="ficon">⌘</div><div><h3>Computador</h3><p>Um computador comum que rode o fatiador e ferramentas de desenho pode bastar para começar. Modelagem CAD pesada ou multitarefa pode exigir mais memória e processador. Se já tiver um computador, não precisa comprar outro automaticamente.</p></div></div>
+    <div class="feature"><div class="ficon">⚡</div><div><h3>Energia</h3><p>Uma impressora FDM de mesa costuma consumir dezenas a poucas centenas de watts durante a impressão; o valor real depende da máquina, temperatura e aquecimento da mesa.</p></div></div>
+    <div class="feature"><div class="ficon">◷</div><div><h3>Tempo de máquina</h3><p>Impressões podem durar horas. Uma falha no fim desperdiça material e capacidade de produção; monitoramento e manutenção influenciam a margem.</p></div></div>
+    <div class="feature"><div class="ficon">⇧</div><div><h3>Escalar para 10 máquinas</h3><p>Multiplique o custo dos equipamentos, mas não só isso: planeje circuitos e tomadas, bancada, espaço, ventilação, armazenamento, manutenção, gestão de pedidos e mão de obra. Dez máquinas não garantem dez vezes a receita.</p></div></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="page" id="nfc">
+ <div class="sectionhead"><div><div class="eyebrow">Módulo comercial</div><h2>Placas NFC configuradas</h2><p>Simule lotes e venda conforme a regra de preço definida.</p></div></div>
+ <div class="grid two">
+  <div class="card"><h2>Parâmetros do lote</h2><p class="lead">Custos informados anteriormente. Confirme as divergências com o fornecedor.</p>
+   <div class="control"><div class="controlhead"><label for="nfcLot">Lote comprado</label></div><select id="nfcLot"><option value="5">5 placas — R$ 200,00</option><option value="10">10 placas — R$ 350,00</option><option value="20" selected>20 placas — R$ 660,06*</option><option value="50">50 placas — R$ 1.445,00</option><option value="100">100 placas — R$ 2.390,00</option></select></div>
+   <div class="control"><div class="controlhead"><label for="nfcQty">Quantidade vendida</label><strong id="nfcQtyLabel">20</strong></div><input class="range" id="nfcQty" type="range" min="1" max="20" value="20"><div class="ticks"><span>1</span><span id="nfcMax">20 unidades</span></div></div>
+   <div class="control"><div class="controlhead"><label for="nfcExtra">Outros custos totais (R$)</label></div><input id="nfcExtra" type="number" min="0" value="0"></div>
+  </div>
+  <div class="card"><h2>Resultado potencial</h2><p class="lead">1 placa = R$ 80; 2 placas = R$ 150; a partir da terceira, cada adicional custa R$ 80.</p>
+   <div class="grid metrics" style="grid-template-columns:repeat(2,minmax(0,1fr));margin:8px 0">
+    <div class="card"><div class="metric-top">Receita</div><div class="metric-value" id="nfcRevenue">R$ 1.590,00</div></div>
+    <div class="card"><div class="metric-top">Custo proporcional</div><div class="metric-value" id="nfcCost">R$ 660,06</div></div>
+    <div class="card"><div class="metric-top">Resultado estimado</div><div class="metric-value mint" id="nfcProfit">R$ 929,94</div></div>
+    <div class="card"><div class="metric-top">Margem sobre receita</div><div class="metric-value" id="nfcMargin">58,5%</div></div>
+   </div>
+   <div class="callout warn">Resultado antes de despesas não informadas e sem garantia de venda. O estoque não vendido continua como estoque; não é automaticamente prejuízo realizado.</div>
+  </div>
+ </div>
+ <div class="grid products" style="margin-top:15px">
+  <div class="product"><div class="emoji">⭐</div><h3>Google Avaliações</h3><p>Facilita abrir o perfil correto para avaliação. Não garante que a nota suba.</p></div>
+  <div class="product"><div class="emoji">📶</div><h3>Wi-Fi</h3><p>Reduz etapas para acessar dados da rede, dependendo do aparelho.</p></div>
+  <div class="product"><div class="emoji">💬</div><h3>WhatsApp</h3><p>Direciona para contato ou canal comercial.</p></div>
+  <div class="product"><div class="emoji">📸</div><h3>Instagram</h3><p>Facilita encontrar o perfil comercial.</p></div>
+  <div class="product"><div class="emoji">🔑</div><h3>Pix</h3><p>Pode abrir um link ou fluxo de pagamento. Verifique o destino antes de entregar.</p></div>
+  <div class="product"><div class="emoji">🎵</div><h3>TikTok</h3><p>Direciona para perfil ou conteúdo público.</p></div>
+ </div>
+</section>
+
+<section class="page" id="compare">
+ <div class="sectionhead"><div><div class="eyebrow">Decisão</div><h2>Comparar os dois negócios</h2><p>As diferenças de operação importam tanto quanto a margem teórica.</p></div></div>
+ <div class="card tablewrap"><table><thead><tr><th>Critério</th><th>Impressão 3D</th><th>Placas NFC</th></tr></thead><tbody>
+  <tr><td>Investimento inicial</td><td>Mais alto: máquina, material, ferramentas e estrutura</td><td>Mais baixo por lote, conforme quantidade</td></tr>
+  <tr><td>Complexidade operacional</td><td>Modelagem/fatiamento, testes, manutenção, acabamento e tempo de máquina</td><td>Configuração, teste do destino, personalização e suporte</td></tr>
+  <tr><td>Variedade de oferta</td><td>Muito ampla: objetos, peças personalizadas, protótipos e acessórios</td><td>Modelos de placas e diferentes links/funções</td></tr>
+  <tr><td>Desperdício</td><td>Falhas, suportes, purga, protótipos e peças fora de especificação</td><td>Placas defeituosas, erro de configuração ou estoque sem procura</td></tr>
+  <tr><td>Recompra</td><td>Pode existir por coleções, reposições, peças sob medida e clientes empresariais</td><td>Em geral, baixa para o consumidor individual; pode haver vendas em lote para empresas</td></tr>
+  <tr><td>Escala</td><td>Mais máquinas aumentam capacidade, mas exigem espaço, gestão e manutenção</td><td>Maior lote reduz custo unitário potencial, mas imobiliza capital</td></tr>
+  <tr><td>Diferenciação</td><td>Design, acabamento, utilidade, personalização e rapidez</td><td>Configuração, identidade visual, facilidade e suporte</td></tr>
+ </tbody></table></div>
+ <div class="grid two" style="margin-top:15px">
+  <div class="card"><h2>Quando a impressão 3D faz mais sentido</h2><p class="lead">Se você quer construir uma linha de produtos própria e aceita aprender produção.</p><div class="featurelist"><div class="feature"><div class="ficon">✓</div><div><h3>Produtos diferenciados</h3><p>Há espaço para customização, produção sob demanda e nichos específicos.</p></div></div><div class="feature"><div class="ficon">✓</div><div><h3>Recompra possível</h3><p>Consumíveis, peças, coleções e clientes empresariais podem gerar novos pedidos, dependendo do catálogo.</p></div></div></div></div>
+  <div class="card"><h2>Quando as placas NFC fazem mais sentido</h2><p class="lead">Se você quer testar vendas com menor complexidade de fabricação.</p><div class="featurelist"><div class="feature"><div class="ficon">✓</div><div><h3>Operação mais simples</h3><p>Não há impressão física demorada nem manutenção mecânica complexa de impressora.</p></div></div><div class="feature"><div class="ficon">✓</div><div><h3>Menor estrutura produtiva</h3><p>É possível começar com um lote pequeno, desde que o fornecedor e a demanda sejam validados.</p></div></div></div></div>
+ </div>
+ <div class="callout">Nenhuma das ideias é automaticamente superior. A escolha deve depender do dinheiro disponível, da habilidade de vender, do tempo operacional e de evidências de procura.</div>
+</section>
+
+<section class="page" id="proscons">
+ <div class="sectionhead"><div><div class="eyebrow">Análise crítica</div><h2>Prós, contras e como reduzir os riscos</h2><p>Os riscos devem virar decisões operacionais concretas.</p></div></div>
+ <div class="grid two">
+  <div class="card"><h2>Prós potenciais</h2><div class="featurelist">
+   <div class="feature"><div class="ficon">↗</div><div><h3>Possibilidade de crescimento</h3><p>Começar com uma máquina ou lote pequeno e aumentar com base em pedidos confirmados.</p></div></div>
+   <div class="feature"><div class="ficon">▦</div><div><h3>Oferta variada</h3><p>Na impressão 3D, produtos podem mudar conforme demanda sem precisar fabricar moldes tradicionais para cada item.</p></div></div>
+   <div class="feature"><div class="ficon">✦</div><div><h3>Personalização</h3><p>Nome, dimensões, função e aparência podem justificar valor agregado.</p></div></div>
+   <div class="feature"><div class="ficon">◎</div><div><h3>Venda local e online</h3><p>É possível testar vendas diretas, encomendas e marketplaces; cada canal tem taxas e exigências próprias.</p></div></div>
+  </div></div>
+  <div class="card"><h2>Contras e riscos</h2><div class="featurelist">
+   <div class="feature"><div class="ficon">!</div><div><h3>Aprendizado e falhas</h3><p>Impressões podem falhar, gastar material e atrasar pedidos; configurações e manutenção exigem tempo.</p></div></div>
+   <div class="feature"><div class="ficon">₿</div><div><h3>Margem ilusória</h3><p>Calcular apenas o plástico ignora mão de obra, depreciação, taxas, embalagem, falhas e tempo de máquina.</p></div></div>
+   <div class="feature"><div class="ficon">⚡</div><div><h3>Energia e infraestrutura</h3><p>Energia não costuma ser o único ou maior custo variável de uma impressora FDM pequena, mas 10 máquinas em operação exigem dimensionar instalação e ventilação.</p></div></div>
+   <div class="feature"><div class="ficon">▤</div><div><h3>Concorrência e marketplaces</h3><p>Taxas, anúncios, frete, avaliações e competição por preço podem consumir a margem. É preciso calcular o custo de cada canal.</p></div></div>
+  </div></div>
+ </div>
+ <div class="card" style="margin-top:15px"><h2>Checklist de mitigação</h2>
+  <div class="grid three">
+   <label><input type="checkbox"> Confirmar demanda com clientes</label>
+   <label><input type="checkbox"> Fazer protótipos e medir falhas</label>
+   <label><input type="checkbox"> Calcular taxas e frete</label>
+   <label><input type="checkbox"> Definir tempo de trabalho por pedido</label>
+   <label><input type="checkbox"> Verificar direitos de uso dos modelos 3D</label>
+   <label><input type="checkbox"> Planejar manutenção e reposição</label>
+  </div>
+ </div>
+</section>
+
+<section class="page" id="plan">
+ <div class="sectionhead"><div><div class="eyebrow">Próximos passos</div><h2>Plano de ação recomendado</h2><p>Validar primeiro, escalar depois.</p></div></div>
+ <div class="grid two">
+  <div class="card">
+   <div class="steps"><div class="stepnum">1</div><div><h3>Escolher um nicho</h3><p>Exemplos: organizadores, suportes, peças personalizadas, decoração, brindes ou componentes não críticos. Evite começar com um catálogo enorme.</p></div></div>
+   <div class="steps"><div class="stepnum">2</div><div><h3>Aprender com uma máquina</h3><p>Imprimir peças de teste em PLA e registrar tempo, gramas, falhas, acabamento e custo por unidade.</p></div></div>
+   <div class="steps"><div class="stepnum">3</div><div><h3>Validar preços com clientes</h3><p>Apresentar amostras e testar se o mercado aceita o preço calculado, não apenas se as pessoas gostam da ideia.</p></div></div>
+   <div class="steps"><div class="stepnum">4</div><div><h3>Organizar a operação</h3><p>Definir prazo, inspeção, embalagem, política de retrabalho, licenças dos arquivos e rotina de manutenção.</p></div></div>
+   <div class="steps"><div class="stepnum">5</div><div><h3>Escalar só com dados</h3><p>Comprar mais máquinas quando a utilização da primeira, a fila de pedidos e a margem justificarem a expansão.</p></div></div>
+  </div>
+  <div class="card"><h2>O que precisamos confirmar para refinar o plano</h2><p class="lead">O painel funciona com premissas editáveis, mas um orçamento real precisa destes dados.</p>
+   <div class="featurelist">
+    <div class="feature"><div class="ficon">1</div><div><h3>Orçamento disponível</h3><p>Quanto pode investir sem comprometer despesas essenciais e quanto precisa manter como reserva.</p></div></div>
+    <div class="feature"><div class="ficon">2</div><div><h3>Computador e espaço</h3><p>Se já possui computador adequado, bancada, tomadas e local ventilado.</p></div></div>
+    <div class="feature"><div class="ficon">3</div><div><h3>Produtos desejados</h3><p>Itens que pretende vender, tamanho, material, tempo de impressão e concorrentes.</p></div></div>
+    <div class="feature"><div class="ficon">4</div><div><h3>Canal de venda</h3><p>Venda direta, redes sociais, encomenda local ou marketplace, com suas respectivas taxas.</p></div></div>
+   </div>
+   <div class="callout good">Sugestão inicial: começar com uma impressora FDM confiável, filamento PLA e poucos produtos de teste. Evite comprar 10 máquinas antes de provar demanda, tempo de produção e margem.</div>
+  </div>
+ </div>
+</section>
+<p class="fine">Aviso: estimativas educacionais e de planejamento. Não são cotação comercial nem garantia de rentabilidade. Preços de equipamentos e filamentos variam por fornecedor, disponibilidade e frete.</p>
+</main>
+</div>
+<script>
+(()=>{
+'use strict';
+const TITLES={overview:['Visão geral','Compare ideias de negócio com custos, margem e potencial de expansão.'],'3d':['Impressão 3D','Aprenda como funciona a produção e simule custos de uma peça.'],nfc:['Placas NFC','Simule o investimento em lotes e a regra de preço de venda.'],compare:['Comparar negócios','Compare operação, investimento, diferenciação e riscos.'],proscons:['Prós e contras','Identifique vantagens potenciais e riscos que precisam ser controlados.'],plan:['Plano de ação','Valide a procura e os custos antes de aumentar o investimento.']};
+const NFC_LOTS={5:200,10:350,20:660.06,50:1445,100:2390};
+
+const cache={};
+const $=id=>cache[id]||(cache[id]=document.getElementById(id));
+const brl=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const percent=n=>Number(n||0).toLocaleString('pt-BR',{maximumFractionDigits:1})+'%';
+const num=id=>Math.max(0,+$(id).value||0);
+const nfcRev=q=>q<=0?0:q===1?80:q===2?150:150+(q-2)*80;
+
+// Agrupa atualizações de sliders/campos em um quadro de animação
+function bind(ids,fn){
+  let queued=false;
+  const run=()=>{queued=false;fn()};
+  const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(run)}};
+  ids.forEach(id=>$(id).addEventListener('input',schedule,{passive:true}));
+}
+
+function calc3d(){
+  const price=num('filPrice'),g=+$('grams').value||0,h=+$('hours').value||0,p=num('power'),k=num('kwh'),w=num('waste')/100,l=num('labor'),sale=num('salePrice');
+  const mat=price*g/1000*(1+w),energy=p/1000*h*k,unit=mat+energy+l,profit=sale-unit;
+  $('gramsLabel').textContent=g+' g';
+  $('hoursLabel').textContent=h.toLocaleString('pt-BR')+' h';
+  $('materialCost').textContent=brl(mat);
+  $('energyCost').textContent=brl(energy);
+  $('unitCost').textContent=brl(unit);
+  $('unitProfit').textContent=brl(profit);
+  $('unitProfit').className='metric-value '+(profit>=0?'mint':'red');
+}
+
+function calcStartup(){
+  const q=+$('machineQty').value||1,mc=num('machineCost'),sp=num('spools'),spp=num('spoolPrice'),tools=num('tools'),pc=num('computer'),setup=num('setup'),r=num('reserve')/100;
+  const equipment=q*mc,material=sp*spp,total=(equipment+material+tools+pc+setup)*(1+r);
+  $('machineQtyLabel').textContent=q;
+  $('startupTotal').textContent=brl(total);
+  $('startupBreakdown').textContent=`Máquinas ${brl(equipment)} + filamento ${brl(material)} + ferramentas ${brl(tools)} + computador ${brl(pc)} + estrutura ${brl(setup)} + reserva ${percent(r*100)}.`;
+}
+
+function calcNfc(){
+  const lot=+$('nfcLot').value||20,total=NFC_LOTS[lot],qty=Math.min(lot,Math.max(1,+$('nfcQty').value||1)),extra=num('nfcExtra');
+  const rev=nfcRev(qty),cost=total/lot*qty,profit=rev-cost-extra,margin=rev?profit/rev*100:0;
+  $('nfcQty').max=lot;$('nfcQty').value=qty;
+  $('nfcQtyLabel').textContent=qty;
+  $('nfcMax').textContent=lot+' unidades';
+  $('nfcRevenue').textContent=brl(rev);
+  $('nfcCost').textContent=brl(cost);
+  $('nfcProfit').textContent=brl(profit);
+  $('nfcProfit').className='metric-value '+(profit>=0?'mint':'red');
+  $('nfcMargin').textContent=percent(margin);
+}
+
+const navs=[...document.querySelectorAll('.nav')];
+const pages=[...document.querySelectorAll('.page')];
+function go(id){
+  navs.forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+  pages.forEach(p=>p.classList.toggle('active',p.id===id));
+  $('title').textContent=TITLES[id][0];
+  $('subtitle').textContent=TITLES[id][1];
+  window.scrollTo(0,0);
+}
+
+// Um único listener para menu e botões "Abrir módulo"
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-page],[data-go]');
+  if(t)go(t.dataset.page||t.dataset.go);
+});
+
+// Teclado numérico no celular
+document.querySelectorAll('input[type=number]').forEach(i=>i.setAttribute('inputmode','decimal'));
+
+bind(['filPrice','grams','hours','power','kwh','waste','labor','salePrice'],calc3d);
+bind(['machineCost','machineQty','spools','spoolPrice','tools','computer','setup','reserve'],calcStartup);
+bind(['nfcQty','nfcExtra'],calcNfc);
+$('nfcLot').addEventListener('change',calcNfc);
+
+calc3d();calcStartup();calcNfc();
+})();
+</script>
+</body></html>
